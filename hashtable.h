@@ -1,0 +1,89 @@
+#ifndef HASHTABLE_H
+#define HASHTABLE_H
+
+#include <ostream>
+#include <string>
+#include <stdexcept>
+#include "Dict.h"
+#include "TableEntry.h"
+
+#include "../PRA_2324_P1/ListLinked.h"
+
+template <typename V>
+class HashTable: public Dict<V> {
+
+    private:
+        int n;
+	int max;
+	ListLinked<TableEntry<V>>* table;
+	int h(std::string key){
+		int suma=0;
+		for(int i=0;i<key.size();i++){
+			suma+=key[i];
+		}
+		return suma%capacity();
+	};
+
+    public:
+	HashTable(int size){
+		n=0;
+		max=size;
+		table= new ListLinked<TableEntry<V>>[size];
+	}
+	~HashTable(){
+	  std:: cout<<"Borrando"<<std::endl;
+		delete[] table;
+	}
+	int capacity() const{
+		return max;
+	}
+	friend std::ostream& operator<<(std::ostream &out, const HashTable<V> &th){
+		for(int i=0;i<th.capacity();i++){
+			for(int j=0;j<th.table[i].size();j++)
+			out<<th.table[i][j]<<"\n";
+		}
+		return out;
+	}
+	V operator[](std::string key){
+		V valor=search(key);
+		if(valor==-1)
+			throw std::runtime_error("No encontrado");
+		return valor;
+	}
+        void insert(std::string key, V value) override{
+		int clave=h(key);
+		TableEntry<V> th(key,value);
+		int i=table[clave].search(th);
+		if(i!=-1){
+			throw std::runtime_error("Ya en lista");
+		}
+		table[clave].prepend(th);
+
+	}
+	V search(std::string key)override{
+		int clave=h(key);
+		TableEntry<V> th(key);
+		int i=table[clave].search(th);
+		if(i==-1){
+			throw std::runtime_error("No encontrado");
+		}
+		return table[clave][i].value;
+		
+	}
+	V remove(std::string key)override{
+		int clave=h(key);
+               	TableEntry<V> th(key);
+		int i=table[clave].search(th);
+		if(i==-1){
+			throw std::runtime_error("No encontrado");
+		}
+		th=table[clave].remove(i);
+		return th.value;
+	}
+	int entries()override{
+		return n;
+	}
+        
+};
+
+#endif
