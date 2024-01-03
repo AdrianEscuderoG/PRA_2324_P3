@@ -79,7 +79,7 @@ class BSTree {
 	}
 	BSNode<T>* remove_max(BSNode<T>* n){
 		if(n->right==nullptr){
-			return n;
+			return n->left;
 		}else{
 			n->right=remove_max(n->right);
 			return n;
