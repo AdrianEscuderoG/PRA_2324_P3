@@ -9,8 +9,8 @@ class BSNode {
         T elem;
 	BSNode<T>* left;
 	BSNode<T>* right;
-	BSNode(T elem, BSNode<T>* left=nullptr, BSNode<T>* right=nullptr){
-		this->elem=elem;
+	BSNode(T e, BSNode<T>* left=nullptr, BSNode<T>* right=nullptr){
+		elem=e;
 		this->left=left;
 		this->right=right;
 	}

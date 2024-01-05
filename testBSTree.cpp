@@ -160,7 +160,7 @@ int main()
     bstree.remove(15);
     std::cout << "bstree.size(): " << bstree.size() << std::endl;
     std::cout << "cout << bstree: " << std::endl << bstree << std::endl;
-    std::cout << std::endl; 
+    std::cout << std::endl;
     std::cout << "bstree.insert(15)" << std::endl;
     std::cout << "-----------------" << std::endl;
     bstree.insert(15);

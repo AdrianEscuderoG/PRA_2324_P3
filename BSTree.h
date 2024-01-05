@@ -14,31 +14,31 @@ class BSTree {
 	BSNode<T>* search(BSNode<T>* n, T e) const{
 		if(n==nullptr){
 			throw std::runtime_error("Elemento no encontrado");
-		}
+		}else if(n->elem==e){
+                        return n;
+                }
 		else if(n->elem>e){
-			search(n->left,e);
+			return search(n->left,e);
 		}
 		else if(n->elem<e){
-			search(n->right,e);
+			return search(n->right,e);
 		}
-		else{
-			return n;
-		}
+		return n;
 	}
 	BSNode<T>* insert(BSNode<T>* n, T e){
 		if(n==nullptr){
 		        nelem++;
 			return new BSNode<T>(e);	
 		}
+		else if(n->elem==e){
+                        throw std::runtime_error("Elemento ya en lista");
+                }
 		else if(n->elem>e){
                         n->left=insert(n->left,e);
                 }
                 else if(n->elem<e){
                         n->right=insert(n->right,e);
                 }
-                else if(n->elem==e){
-                        throw std::runtime_error("Elemento ya en lista");
-		}
 		return n;
 	}
 	void print_inorder(std::ostream &out, BSNode<T>* n) const{
@@ -107,18 +107,17 @@ class BSTree {
 		return nelem;
 	}
 	T search(T e) const{
-		return search(root, e)->elem;	
+		BSNode<T> *n=search(root, e);
+	 	return n->elem;	 
 	}
 	T operator[](T e) const{
 		std::cout<<" "<<search(e)<<" ";
 		return;
 	}
-	void insert(T e){
-		
+	void insert(T e){	
 		root=insert(root,e);
 	}
 	friend std::ostream& operator<<(std::ostream &out, const BSTree<T> &bst){
-		
 		bst.print_inorder(out, bst.root);
 		return out;
 	}

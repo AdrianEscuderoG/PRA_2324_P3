@@ -58,7 +58,7 @@ class HashTable: public Dict<V> {
 			throw std::runtime_error("Ya en lista");
 		}
 		table[clave].prepend(th);
-
+		n++;
 	}
 	V search(std::string key)override{
 		int clave=h(key);
@@ -78,6 +78,7 @@ class HashTable: public Dict<V> {
 			throw std::runtime_error("No encontrado");
 		}
 		th=table[clave].remove(i);
+		n--;
 		return th.value;
 	}
 	int entries()override{
